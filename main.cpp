@@ -32,7 +32,7 @@ int main()
 
 	glfwSetCursorPosCallback(engine->getWindow()->getHandle(), mouse);
 
-	Texture* tex = Texture::readTextureFromFile("C:\\Users\\David\\Desktop\\OpenGL-GameEngine\\wall.jpg");
+	Texture* tex = Texture::readTextureFromFile("container.jpg");
 	masterRenderer = new MasterRenderer();
 	EntityRenderer* entityRenderer = new EntityRenderer();
 	VertexArrayObject vao = VertexArrayObject();

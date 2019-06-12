@@ -20,8 +20,8 @@ void EntityShader::bindAttributes()
 
 EntityRenderer::EntityRenderer()
 {
-    std::string vertexShaderCode = FileUtil::readFile("C:\\Users\\David\\Desktop\\OpenGL-GameEngine\\shader.vsh");
-    std::string fragmentShaderCode = FileUtil::readFile("C:\\Users\\David\\Desktop\\OpenGL-GameEngine\\shader.fsh");
+    std::string vertexShaderCode = FileUtil::readFile("shader.vsh");
+    std::string fragmentShaderCode = FileUtil::readFile("shader.fsh");
     _shader = new EntityShader(vertexShaderCode, fragmentShaderCode);
 }
 
