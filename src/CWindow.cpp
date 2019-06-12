@@ -36,7 +36,7 @@ void CWINDOW::createWindow()
 	}
 
 	glfwMakeContextCurrent(_windowHandle);
-	//glfwSetInputMode(_windowHandle, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetInputMode(_windowHandle, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	//Initialize GLAD
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -47,7 +47,7 @@ void CWINDOW::createWindow()
 	}
 
 	glViewport(0, 0, _width, _height);
-	glfwSwapInterval(0);
+	glfwSwapInterval(1);
 }
 
 int* CWINDOW::getWindowWidth()
