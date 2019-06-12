@@ -38,11 +38,11 @@ void EntityRenderer::draw(glm::mat4* projectionMatrix)
     {
         _shader->start();
 
-	unsigned int projectionMatrixLocation = _shader->getUniformLocation("projectionMatrix");
+	    unsigned int projectionMatrixLocation = _shader->getUniformLocation("projectionMatrix");
         unsigned int viewMatrixLocation = _shader->getUniformLocation("viewMatrix");
         unsigned int transformationMatrixLocation = _shader->getUniformLocation("transformationMatrix");
 
-	glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, glm::value_ptr(*projectionMatrix));
+	    glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, glm::value_ptr(*projectionMatrix));
         glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, glm::value_ptr(*engineInstance->getCamera()->getViewMatrix()));
         glUniformMatrix4fv(transformationMatrixLocation, 1, GL_FALSE, glm::value_ptr(*entity->getTransformationMatrix()));
 
