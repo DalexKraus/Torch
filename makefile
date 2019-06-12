@@ -1,7 +1,7 @@
 SRC_PATH = src/
 
 CC			= g++
-CFLAGS		= -Wall --std=c++17 -Wdeprecated -g -Wunused-variable -Wunused-function
+CFLAGS		= -v -ftime-report -Wall --std=c++17 -Wdeprecated -g -Wunused-variable -Wunused-function
 LIBFLAGS	= -lglfw3 -lopengl32 -lgdi32
 INCLUDE		= -IBuilds/Dependencies/include
 LIBS		= -LBuilds/Dependencies/lib
