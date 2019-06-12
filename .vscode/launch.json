@@ -5,24 +5,19 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "C++ Launch",
-            "type": "cppdbg",
+            "name": "Copy Resources, Compile & Run",
+            "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceRoot}/Builds/Build_MacOSX/engine",
             "preLaunchTask": "Compile",
-            "args": [],
+            "program": "make",
+            "args": ["run_win"],
+
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": true,
-            "MIMode": "lldb",
 
-            "windows": {
-                "program": "${workspaceRoot}\\Builds\\Build_Win\\engine.exe",
-                "miDebuggerPath": "C:\\MinGW\\bin\\gdb.exe",
-                "miDebuggerArgs": "${workspaceRoot}\\Builds\\Build_Win\\engine.exe",
-                "MIMode": "gdb"
-            }
+            "osx": {"args": ["run_osx"]}
         }
     ]
 }

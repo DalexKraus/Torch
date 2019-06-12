@@ -2,47 +2,16 @@
     // See https://go.microsoft.com/fwlink/?LinkId=733558
     // for the documentation about the tasks.json format
     "version": "2.0.0",
-    "command": "g++",
+    "command": "make",
     
     "tasks": [
         {
             "label": "Compile",
             "type": "shell",
-            "command": "g++",
+            "command": "make",
 
-            "windows": {
-                "args": [
-                    "-g",
-                    "-Wdeprecated",
-                    "-IBuilds\\Dependencies\\include",
-                    "-LBuilds\\Dependencies\\lib",
-                    "--std=c++11",
-                    "*.cpp",
-                    "*.c",
-                    "-lglfw3",
-                    "-lopengl32",
-                    "-lgdi32",
-                    "-o",
-                    "Builds\\Build_Win\\engine.exe"
-                ]
-            },
-            "osx": {
-                "args": [
-                    "g++",
-                    "-g",
-                    "-Wdeprecated",
-                    "-IBuilds/Dependencies/include/",
-                    "-LBuilds/Dependencies/lib",
-                    "-lglfw",
-                    "--std=c++11",
-                    "*.cpp",
-                    "*.c",
-                    "-o",
-                    "Builds/Build_MacOSX/engine",
-                    "-framework",
-                    "OpenGl"
-                ]
-            }
+            "windows":  {"args": ["cp_resources", "win"]},
+            "osx":      {"args": ["cp_resources", "osx"]}
         }
     ]
 }
