@@ -5,13 +5,5 @@
     "command": "make",
     
     "tasks": [
-        {
-            "label": "Compile",
-            "type": "shell",
-            "command": "make",
-
-            "windows":  {"args": ["cp_resources", "win"]},
-            "osx":      {"args": ["cp_resources", "osx"]}
-        }
     ]
 }

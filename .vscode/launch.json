@@ -5,19 +5,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Copy Resources, Compile & Run",
-            "type": "cppvsdbg",
+            "name": "Run Python Build-Tool",
+            "type": "python",
             "request": "launch",
-            "preLaunchTask": "Compile",
-            "program": "make",
-            "args": ["run_win"],
-
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
-            "environment": [],
-            "externalConsole": true,
-
-            "osx": {"args": ["run_osx"]}
+            "program": "${workspaceFolder}/Builds/build.py",
+            "console": "integratedTerminal"
         }
     ]
 }

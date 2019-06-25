@@ -28,7 +28,7 @@ int main()
 
 	glfwSetCursorPosCallback(engine->getWindow()->getHandle(), mouse);
 
-	//Texture* tex = Texture::readTextureFromFile("container.jpg");
+	Texture* tex = Texture::readTextureFromFile("textures/container.jpg");
 	masterRenderer = new MasterRenderer();
 	EntityRenderer* entityRenderer = new EntityRenderer();
 	VertexArrayObject vao = VertexArrayObject();
@@ -37,7 +37,7 @@ int main()
 		-0.5f, 0.5f, -1.0f,
 		-0.5f, -0.5f, -1.0f,
 		0.5f, -0.5f, -1.0f,
-		0.5f, 0.5f, -1.0f
+		0.5f, 0.5f, -1.0f,
 	};
 
 	unsigned int indices[] = {

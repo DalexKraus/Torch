@@ -13,7 +13,7 @@ class Camera
 		float _pitch	= 0.0f;
 		float _lastX;
 		float _lastY;
-
+		
 		glm::vec3 _position;
 		glm::vec3 _cameraTarget;
 		glm::vec3 _cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
