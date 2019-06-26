@@ -1,4 +1,6 @@
 {
+    "python.terminal.activateEnvironment": false,
+
     "files.associations": {
         "iostream": "cpp",
         "glad.h": "c",

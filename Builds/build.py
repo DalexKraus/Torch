@@ -1,24 +1,29 @@
 import os
+import subprocess
 import threading
 import platform
 from threading import Thread
 from os.path import isfile, join
 
-#Checksum file
-cksumfile = 'Builds/out/chksums.res'
 
 #Folders
 rootdir         = './'
 srcpath         = rootdir + 'src'
 compileOutput   = 'Builds/out'
-runpath       = rootdir + 'Builds/run'
+runpath         = rootdir + 'Builds/run'
 resourcedirs    = ['shaders', 'textures']
 
+#Checksum file
+cksumfile       = rootdir + 'Builds/out/chksums.res'
+
+runningWindows  = platform.system() == 'Windows'
+
 #Compiler flags
-libflags        = ' -lglfw3 -lopengl32 -lgdi32' if platform.system() == 'Windows' else ' -lglfw -framework opengl'
+libflags        = ' -lglfw3 -lopengl32 -lgdi32' if runningWindows else ' -lglfw -framework opengl'
 include         = ' -IBuilds/Dependencies/include'
 libs            = ' -LBuilds/Dependencies/lib'
-executable      = ' engine'
+program         = 'engine' + ('.exe' if runningWindows else '')
+executable      = compileOutput + '/' + program
 compilerCall    = 'g++ -g -Wall --std=c++17' + include + ' -c $SRC$ -o ' + compileOutput + '/$OUT$.o'
 linkerCall      = 'g++ -g -Wall --std=c++17' + libs + ' ' +  '$OBJ$' + libflags + ' -o ' + executable
 
@@ -56,9 +61,11 @@ def main():
     #Link compiled object files
     objects = collect_objects()
     print('\nLinking ...')
-    os.system(linkerCall.replace('$OBJ$', ' '.join(objects)))
+    bash(linkerCall.replace('$OBJ$', ' '.join(objects)))
+
+    #Move the linked executable (delete it if present)
     print('Moving executable ...')
-    os.system('mv ' + executable + ' ' + runpath)
+    bash('mv ' + program + ' ' + runpath)
 
     #Copy resources
     print('Copying resources ...')
@@ -68,14 +75,16 @@ def main():
 
     #Launch the executable
     print('\n --- Launch ---')
-    os.popen(runpath + '/' + executable.replace(" ", ""))
+    bash(runpath + '/' + program)
 
 
 def compile_source(sourcefile):
-    os.system(compilerCall.replace('$SRC$', srcpath + '/' + sourcefile).replace('$OUT$', os.path.splitext(sourcefile)[0]))
+    if not isheader(sourcefile):
+        bash(compilerCall.replace('$SRC$', srcpath + '/' + sourcefile).replace('$OUT$', os.path.splitext(sourcefile)[0]))
 
 
 def collect_compilable_files():
+    toCompile = []
     #Retrieve all compilable sources
     files = [f for f in os.listdir(srcpath) if isfile(join(srcpath, f)) 
         if (f.endswith('.cpp') or f.endswith('.c') or isheader(f))]
@@ -83,8 +92,8 @@ def collect_compilable_files():
     #Sort files
     files.sort(key = lambda x: str(x.rsplit('.', 1)[1]), reverse=True)
 
-    toCompile = []
-    os.system('touch ' + cksumfile)
+    bash('touch ' + cksumfile)
+    
     cksumfilehandle = open(cksumfile, "r+")
     cksumfilecontent = cksumfilehandle.read()
 
@@ -92,7 +101,7 @@ def collect_compilable_files():
         #Parse checksum of source file
         cksumResult = os.popen('cksum ' + srcpath + '/' + file).read().split(' ')
         cksum = file + '=' + cksumResult[0] + '-' + cksumResult[1] + ';'
-        
+
         #Determine if the source needs to be recompiled. (= The cksum has changed)
         needsCompile = True
         isInFile = False
@@ -106,7 +115,12 @@ def collect_compilable_files():
                 needsCompile = False
             #If a header file changed, the entire project needs to be recompiled.
             elif isheader(file):
-                toCompile = files
+                #Stage all source files for compilation
+                for source in files:
+                    toCompile.clear()
+                    if not isheader(source):
+                        toCompile.append(source)
+                
                 print('Header file \'' + file + '\' has changed, entire project needs to be recompiled.')
                 break
         else:
@@ -141,8 +155,15 @@ def collect_objects():
 
 def copy_resources():
     for resourcefolder in resourcedirs:
-        os.system('cp -r -f ' + rootdir + resourcefolder + ' ' + runpath + '/')
+        bash('cp -r ' + rootdir + resourcefolder + ' ' + runpath + '/')
     return
+
+
+def bash(command):
+    if runningWindows:
+        subprocess.call('\"C:\\Program Files\\Git\\bin\\bash.exe\" --login -i -c \"' + command + "\"", shell=True)
+    else:
+        os.system(command)
 
 
 if __name__ == '__main__':
